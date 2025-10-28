@@ -1,0 +1,12 @@
+# Node / Next.js / frontend
+frontend/node_modules/
+frontend/.next/
+frontend/.env
+frontend/dist/
+
+# Python / backend
+backend/__pycache__/
+backend/venv/
+backend/.env
+backend/*.pyc
+backend/.pytest_cache/
