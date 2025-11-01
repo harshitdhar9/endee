@@ -22,16 +22,22 @@ export default function Step2({ form, setForm, nextStep, prevStep }: Props) {
 
   // For multi-select options like communication or diet
   const togglePreferenceArray = (key: string, value: string) => {
-    const current = form.preferences[key] || [];
+    const current = (form.preferences[key] as string[]) || [];
     if (current.includes(value)) {
       setForm({
         ...form,
-        preferences: { ...form.preferences, [key]: current.filter((v: string) => v !== value) },
+        preferences: {
+          ...form.preferences,
+          [key]: current.filter((v: string) => v !== value),
+        },
       });
     } else {
       setForm({
         ...form,
-        preferences: { ...form.preferences, [key]: [...current, value] },
+        preferences: {
+          ...form.preferences,
+          [key]: [...current, value],
+        },
       });
     }
   };
