@@ -1,4 +1,3 @@
-# app/schemas/onboarding.py
 from pydantic import BaseModel
 from typing import List, Optional, Dict
 
@@ -18,9 +17,8 @@ class OnboardingCreate(BaseModel):
     personality: Optional[str]
     diet: Optional[List[str]]
 
-    # 🆕 Step 3 fields
     about_me: Optional[str]
-    social_links: Optional[Dict[str, str]]  # {"instagram": "...", "linkedin": "..."}
+    social_links: Optional[Dict[str, str]]  
 
 class OnboardingResponse(OnboardingCreate):
     id: int

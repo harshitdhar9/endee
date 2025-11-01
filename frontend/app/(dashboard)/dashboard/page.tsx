@@ -18,14 +18,13 @@ const dummyUsers: User[] = [
 
 export default function DashboardPage() {
   const handleMatch = (user: User) => {
-    console.log(`❤️ Match clicked for ${user.name}`);
+    console.log(` Match clicked for ${user.name}`);
   };
 
   return (
     <main className="min-h-screen bg-gray-50 p-10">
       <h1 className="text-3xl font-bold text-indigo-600 mb-8">Dashboard</h1>
 
-      {/* Users Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         {dummyUsers.map((user) => (
           <div
@@ -38,7 +37,7 @@ export default function DashboardPage() {
             "
             style={{ height: '120px' }}
           >
-            {/* Profile Picture */}
+
             <div className="w-20 h-20 rounded-full bg-gray-200 flex items-center justify-center text-2xl font-bold text-gray-500 overflow-hidden">
               {user.avatar ? (
                 <img
@@ -51,14 +50,12 @@ export default function DashboardPage() {
               )}
             </div>
 
-            {/* User Details */}
             <div className="flex-1 flex flex-col justify-center ml-4">
               <h2 className="text-xl font-bold">{user.name}</h2>
               <p className="text-gray-700">{user.age} yrs</p>
               <p className="text-gray-700">{user.city}</p>
             </div>
 
-            {/* Match Button */}
             <button
               onClick={() => handleMatch(user)}
               className="ml-4 px-4 py-2 bg-green-600 text-white font-semibold rounded-lg hover:bg-green-700 transition-colors"

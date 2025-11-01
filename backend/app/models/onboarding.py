@@ -24,5 +24,4 @@ class Onboarding(Base):
     about_me = Column(Text, nullable=True)
     social_links = Column(JSON, nullable=True)
 
-    # ✅ Add relationship back to User
     user = relationship("User", back_populates="onboarding")

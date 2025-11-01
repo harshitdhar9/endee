@@ -9,12 +9,10 @@ export default function Navbar() {
 
   return (
     <nav className="w-full px-6 py-4 flex justify-between items-center bg-white relative">
-      {/* Logo */}
       <Link href="/" className="text-5xl font-bold text-indigo-600">
         Kohabit
       </Link>
 
-      {/* Desktop Menu */}
       <div className="hidden md:flex items-center space-x-6">
         <Link
           href="/auth/signIn"
@@ -30,7 +28,6 @@ export default function Navbar() {
         </Link>
       </div>
 
-      {/* Mobile Menu Button */}
       <button
         className="md:hidden text-gray-800"
         onClick={() => setMenuOpen(!menuOpen)}
@@ -38,7 +35,6 @@ export default function Navbar() {
         {menuOpen ? <X size={26} /> : <Menu size={26} />}
       </button>
 
-      {/* Mobile Dropdown (compact box near icon) */}
       {menuOpen && (
         <div
           className="

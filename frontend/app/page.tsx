@@ -26,9 +26,7 @@ export default function Home() {
       <Navbar />
 
       <main className="flex flex-col justify-center flex-grow pt-24">
-        {/* Hero Section */}
         <section className="flex flex-col-reverse md:flex-row items-center justify-between px-6 sm:px-10 lg:px-20 py-16 md:py-20 gap-12 md:gap-16">
-          {/* Left Text Side */}
           <div className="flex-1 text-center md:text-left space-y-6">
             <h1 className="text-3xl sm:text-4xl md:text-6xl font-extrabold leading-tight">
               Find your perfect{' '}
@@ -54,7 +52,6 @@ export default function Home() {
             </div>
           </div>
 
-          {/* Right Image Side */}
           <div className="flex-1 flex justify-center md:justify-end">
             <div className="rounded-2xl md:rounded-tl-[4rem] md:rounded-bl-[4rem] md:rounded-tr-none md:rounded-br-none overflow-hidden shadow-xl w-[90%] sm:w-[80%] md:w-[75%] lg:w-[70%]">
               <Image
@@ -69,7 +66,6 @@ export default function Home() {
           </div>
         </section>
 
-        {/* Stats Section */}
         <section
           id="learn-more"
           className="px-6 sm:px-10 lg:px-20 py-10 grid grid-cols-1 sm:grid-cols-3 gap-8 text-center"

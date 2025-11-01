@@ -10,5 +10,4 @@ class User(Base):
     email = Column(String, unique=True, index=True, nullable=False)
     password = Column(String, nullable=False)
 
-    # ✅ Relationship to onboarding
     onboarding = relationship("Onboarding", back_populates="user", uselist=False)

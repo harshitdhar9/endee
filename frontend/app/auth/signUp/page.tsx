@@ -31,20 +31,15 @@ export default function SignUpPage() {
         setError(data.detail || 'Signup failed');
         return;
       }
-
       const data = await res.json();
 
-      // Save token in localStorage
       localStorage.setItem('token', data.access_token);
-
-      // Redirect to onboarding
       router.push('/onboarding');
     } catch (err) {
       console.error(err);
       setError('Something went wrong');
     }
   };
-
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-r from-indigo-50 to-white px-4">
       <div className="bg-white p-8 rounded-3xl shadow-lg w-full max-w-md">

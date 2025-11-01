@@ -35,11 +35,9 @@ export default function Step3({ form, setForm, prevStep, handleFinish }: Props) 
         />
       </div>
 
-      {/* Social Media Links */}
       <div className="flex flex-col space-y-4">
         <p className="font-medium text-gray-700 text-lg">Social Media Links</p>
         <div className="flex flex-col gap-4">
-          {/* Instagram */}
           <div className="flex items-center gap-4">
             <FaInstagram className="text-pink-500 text-3xl" />
             <input
@@ -51,7 +49,6 @@ export default function Step3({ form, setForm, prevStep, handleFinish }: Props) 
             />
           </div>
 
-          {/* Discord */}
           <div className="flex items-center gap-4">
             <FaDiscord className="text-indigo-600 text-3xl" />
             <input
@@ -63,7 +60,6 @@ export default function Step3({ form, setForm, prevStep, handleFinish }: Props) 
             />
           </div>
 
-          {/* Twitter */}
           <div className="flex items-center gap-4">
             <FaTwitter className="text-blue-500 text-3xl" />
             <input
@@ -77,7 +73,6 @@ export default function Step3({ form, setForm, prevStep, handleFinish }: Props) 
         </div>
       </div>
 
-      {/* Navigation Buttons */}
       <div className="flex justify-between mt-6">
         <button
           onClick={prevStep}

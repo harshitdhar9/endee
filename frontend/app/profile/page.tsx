@@ -47,7 +47,6 @@ export default function ProfileSettingsPage() {
       <DashboardNavbar />
 
       <main className="flex-1 p-10 max-w-5xl mx-auto space-y-12">
-        {/* Account Info */}
         <section className="bg-white p-10 rounded-3xl shadow-xl space-y-6">
           <h2 className="text-2xl font-bold text-indigo-600">Account Info</h2>
 
@@ -74,11 +73,9 @@ export default function ProfileSettingsPage() {
           </div>
         </section>
 
-        {/* Preferences */}
         <section className="bg-white p-10 rounded-3xl shadow-xl space-y-8">
           <h2 className="text-2xl font-bold text-indigo-600">Preferences</h2>
 
-          {/* Budget */}
           <div className="flex flex-col">
             <label className="mb-2 font-medium text-gray-700 text-lg">
               Budget: <span className="font-bold">{form.budget || 0}$</span>
@@ -97,8 +94,6 @@ export default function ProfileSettingsPage() {
               <span>10k</span>
             </div>
           </div>
-
-          {/* Age */}
           <div className="flex flex-col">
             <label className="mb-2 font-medium text-gray-700 text-lg">Age</label>
             <input
@@ -112,7 +107,6 @@ export default function ProfileSettingsPage() {
             />
           </div>
 
-          {/* Sleep */}
           <div className="flex flex-col">
             <p className="mb-2 font-medium text-gray-700 text-lg">Morning or Night Person?</p>
             <div className="flex gap-4">
@@ -133,7 +127,6 @@ export default function ProfileSettingsPage() {
             </div>
           </div>
 
-          {/* Interests */}
           <div>
             <p className="mb-3 font-medium text-gray-700 text-lg">Interests</p>
             <div className="flex flex-wrap gap-3">
@@ -154,7 +147,6 @@ export default function ProfileSettingsPage() {
             </div>
           </div>
 
-          {/* Pets */}
           <div>
             <p className="mb-3 font-medium text-gray-700 text-lg">Pets</p>
             <div className="flex flex-wrap gap-3">
@@ -174,8 +166,6 @@ export default function ProfileSettingsPage() {
               ))}
             </div>
           </div>
-
-          {/* Music Types */}
           <div>
             <p className="mb-3 font-medium text-gray-700 text-lg">Types of Music</p>
             <div className="flex flex-wrap gap-3">
@@ -196,7 +186,6 @@ export default function ProfileSettingsPage() {
             </div>
           </div>
 
-          {/* Movie Genres */}
           <div>
             <p className="mb-3 font-medium text-gray-700 text-lg">Types of Movies</p>
             <div className="flex flex-wrap gap-3">
@@ -217,7 +206,6 @@ export default function ProfileSettingsPage() {
             </div>
           </div>
 
-          {/* Looking For */}
           <div>
             <p className="mb-3 font-medium text-gray-700 text-lg">Looking For</p>
             <div className="flex flex-wrap gap-3">
@@ -238,7 +226,6 @@ export default function ProfileSettingsPage() {
             </div>
           </div>
 
-          {/* Communication */}
           <div>
             <p className="mb-3 font-medium text-gray-700 text-lg">Communication Preferences</p>
             <div className="flex flex-wrap gap-3">
@@ -259,7 +246,6 @@ export default function ProfileSettingsPage() {
             </div>
           </div>
 
-          {/* Personality */}
           <div>
             <p className="mb-3 font-medium text-gray-700 text-lg">Personality</p>
             <div className="flex gap-4">
@@ -280,7 +266,6 @@ export default function ProfileSettingsPage() {
             </div>
           </div>
 
-          {/* Diet */}
           <div>
             <p className="mb-3 font-medium text-gray-700 text-lg">Diet Preferences</p>
             <div className="flex flex-wrap gap-3">
@@ -302,7 +287,6 @@ export default function ProfileSettingsPage() {
           </div>
         </section>
 
-        {/* About Me & Social */}
         <section className="bg-white p-10 rounded-3xl shadow-xl space-y-6">
           <h2 className="text-2xl font-bold text-indigo-600">About Me & Social Links</h2>
 
@@ -317,7 +301,6 @@ export default function ProfileSettingsPage() {
             />
           </div>
 
-          {/* Social Links */}
           <div className="flex flex-col space-y-4">
             <div className="flex items-center gap-4">
               <FaInstagram className="text-pink-500 text-3xl" />
@@ -351,8 +334,6 @@ export default function ProfileSettingsPage() {
             </div>
           </div>
         </section>
-
-        {/* Save Button */}
         <div className="flex justify-center">
           <button
             onClick={handleSave}

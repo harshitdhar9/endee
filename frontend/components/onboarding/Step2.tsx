@@ -20,7 +20,6 @@ export default function Step2({ form, setForm, nextStep, prevStep }: Props) {
     setForm({ ...form, preferences: { ...form.preferences, [key]: value } });
   };
 
-  // For multi-select options like communication or diet
   const togglePreferenceArray = (key: string, value: string) => {
     const current = (form.preferences[key] as string[]) || [];
     if (current.includes(value)) {
@@ -44,7 +43,6 @@ export default function Step2({ form, setForm, nextStep, prevStep }: Props) {
 
   return (
     <div className="space-y-6 p-10 bg-white rounded-3xl shadow-xl max-w-2xl mx-auto">
-      {/* City */}
       <div className="flex flex-col">
         <label htmlFor="city" className="mb-2 font-medium text-gray-700 text-lg">
           City
@@ -59,7 +57,6 @@ export default function Step2({ form, setForm, nextStep, prevStep }: Props) {
         />
       </div>
 
-      {/* Gender */}
       <div className="flex flex-col">
         <p className="mb-2 font-medium text-gray-700 text-lg">Gender</p>
         <div className="flex gap-4">
@@ -80,7 +77,6 @@ export default function Step2({ form, setForm, nextStep, prevStep }: Props) {
         </div>
       </div>
 
-      {/* Occupation */}
       <div className="flex flex-col">
         <label htmlFor="occupation" className="mb-2 font-medium text-gray-700 text-lg">
           Occupation
@@ -95,7 +91,6 @@ export default function Step2({ form, setForm, nextStep, prevStep }: Props) {
         />
       </div>
 
-      {/* Looking For */}
       <div>
         <p className="mb-2 font-medium text-gray-700 text-lg">Looking For</p>
         <div className="flex flex-wrap gap-3">
@@ -116,7 +111,6 @@ export default function Step2({ form, setForm, nextStep, prevStep }: Props) {
         </div>
       </div>
 
-      {/* Communication Preference */}
       <div>
         <p className="mb-2 font-medium text-gray-700 text-lg">Communication Preference</p>
         <div className="flex flex-wrap gap-3">
@@ -137,7 +131,6 @@ export default function Step2({ form, setForm, nextStep, prevStep }: Props) {
         </div>
       </div>
 
-      {/* Personality */}
       <div>
         <p className="mb-2 font-medium text-gray-700 text-lg">Personality</p>
         <div className="flex gap-4">
@@ -158,7 +151,6 @@ export default function Step2({ form, setForm, nextStep, prevStep }: Props) {
         </div>
       </div>
 
-      {/* Diet Preferences */}
       <div>
         <p className="mb-2 font-medium text-gray-700 text-lg">Diet Preferences</p>
         <div className="flex flex-wrap gap-3">
@@ -179,7 +171,6 @@ export default function Step2({ form, setForm, nextStep, prevStep }: Props) {
         </div>
       </div>
 
-      {/* Navigation Buttons */}
       <div className="flex justify-between mt-6">
         <button
           onClick={prevStep}

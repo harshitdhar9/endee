@@ -4,31 +4,25 @@ from passlib.context import CryptContext
 from app.database import get_db
 from app.models.user import User
 from app.schemas.user import UserCreate, UserResponse, UserLogin, Token
-from app.utils.jwt import create_access_token  # your JWT helper
+from app.utils.jwt import create_access_token  
 
 router = APIRouter(prefix="/auth", tags=["Auth"])
 
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
-# 🔹 Hash password
 def hash_password(password: str) -> str:
     password_bytes = password.encode("utf-8")
     truncated_bytes = password_bytes[:72]
     truncated_password = truncated_bytes.decode("utf-8", errors="ignore")
     return pwd_context.hash(truncated_password)
 
-# 🔹 Verify password
 def verify_password(plain_password, hashed_password):
     return pwd_context.verify(plain_password, hashed_password)
 
-
-# 🔹 Signup Route
 @router.post("/signup", status_code=status.HTTP_201_CREATED)
 def signup(user: UserCreate, db: Session = Depends(get_db)):
-    # Check existing email
     if db.query(User).filter(User.email == user.email).first():
         raise HTTPException(status_code=400, detail="Email already registered")
-    # Check existing name
     if db.query(User).filter(User.name == user.name).first():
         raise HTTPException(status_code=400, detail="Name already taken")
 
@@ -41,8 +35,6 @@ def signup(user: UserCreate, db: Session = Depends(get_db)):
     token = create_access_token({"user_id": db_user.id})
     return {"user": UserResponse.from_orm(db_user), "access_token": token, "token_type": "bearer"}
 
-
-# 🔹 Login Route
 @router.post("/login", response_model=Token)
 def login(user: UserLogin, db: Session = Depends(get_db)):
     db_user = db.query(User).filter(User.email == user.email).first()

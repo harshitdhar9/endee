@@ -23,7 +23,6 @@ export default function OnboardingPage() {
     try {
       console.log('✅ Final form data:', form);
 
-      // TODO: Replace with actual FastAPI endpoint
       const res = await fetch('http://localhost:8000/onboarding/', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },

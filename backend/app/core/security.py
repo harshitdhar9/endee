@@ -1,11 +1,10 @@
-# app/core/security.py
 from datetime import datetime, timedelta
 import os
 from jose import jwt, JWTError
 
-SECRET_KEY = os.getenv("SECRET_KEY")  # Change this, keep it secret
+SECRET_KEY = os.getenv("SECRET_KEY")  
 ALGORITHM = "HS256"
-ACCESS_TOKEN_EXPIRE_MINUTES = 60  # 1 hour token validity
+ACCESS_TOKEN_EXPIRE_MINUTES = 60  
 
 def create_access_token(data: dict):
     to_encode = data.copy()
