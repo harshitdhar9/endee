@@ -10,3 +10,5 @@ backend/venv/
 backend/.env
 backend/*.pyc
 backend/.pytest_cache/
+
+frontend/.env.local
