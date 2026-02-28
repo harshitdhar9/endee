@@ -2,24 +2,48 @@
 
 import Link from 'next/link';
 import { useState } from 'react';
-import { FcGoogle } from 'react-icons/fc'; // install with: npm install react-icons
+import { useRouter } from 'next/navigation';
+import { FcGoogle } from 'react-icons/fc';
 
 export default function SignInPage() {
   const [form, setForm] = useState({ email: '', password: '' });
+  const [error, setError] = useState('');
+  const router = useRouter();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log('Sign in data:', form);
-    // TODO: Add API call (FastAPI endpoint) for login here
-  };
+    setError('');
 
-  const handleGoogleSignIn = () => {
-    console.log('Google Sign In clicked');
-    // TODO: Integrate Google OAuth (FastAPI or NextAuth.js later)
+    try {
+      const res = await fetch(
+        `${process.env.NEXT_PUBLIC_API_URL}/auth/signin`,
+        {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            email: form.email,
+            password: form.password,
+          }),
+        }
+      );
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        setError(data.detail || 'Login failed');
+        return;
+      }
+
+      localStorage.setItem('token', data.access_token);
+      router.push('/onboarding');
+    } catch (err) {
+      console.error(err);
+      setError('Something went wrong');
+    }
   };
 
   return (
@@ -32,24 +56,22 @@ export default function SignInPage() {
           Sign in to your Kohabit account
         </p>
 
-        {/* Google Sign-In Button */}
         <button
-          onClick={handleGoogleSignIn}
           type="button"
           className="w-full flex items-center justify-center gap-3 border border-gray-300 py-2 rounded-lg hover:bg-gray-50 transition"
         >
           <FcGoogle size={22} />
-          <span className="text-gray-700 font-medium">Sign in with Google</span>
+          <span className="text-gray-700 font-medium">
+            Sign in with Google
+          </span>
         </button>
 
-        {/* Divider */}
         <div className="flex items-center justify-center my-4">
           <span className="h-px w-1/4 bg-gray-300"></span>
           <span className="px-3 text-gray-500 text-sm">or</span>
           <span className="h-px w-1/4 bg-gray-300"></span>
         </div>
 
-        {/* Email/Password Form */}
         <form onSubmit={handleSubmit} className="space-y-5">
           <div>
             <label
@@ -88,6 +110,10 @@ export default function SignInPage() {
               className="mt-1 w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:outline-none"
             />
           </div>
+
+          {error && (
+            <p className="text-red-500 text-sm text-center">{error}</p>
+          )}
 
           <button
             type="submit"
