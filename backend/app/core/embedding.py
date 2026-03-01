@@ -1,12 +1,12 @@
 import requests
-
-OLLAMA_URL = "http://localhost:11434/api/embeddings"
+import os
+OLLAMA_URL = os.getenv("OLLAMA_URL")
 
 def generate_embedding(text: str):
     response = requests.post(
         OLLAMA_URL,
         json={
-            "model": "nomic-embed-text",
+            "model": "bge-large",
             "prompt": text
         }
     )

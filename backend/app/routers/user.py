@@ -7,7 +7,6 @@ from app.core.auth import get_current_user
 
 router = APIRouter(prefix="/user", tags=["User"])
 
-
 @router.put("/onboarding")
 async def complete_onboarding(
     data: OnboardingUpdate,

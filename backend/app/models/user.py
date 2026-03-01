@@ -7,7 +7,7 @@ class User(Base):
     id = Column(Integer, primary_key=True, index=True)
     auth_user_id = Column(UUID(as_uuid=True), unique=True, nullable=False)
     name = Column(String, nullable=False)
-    email = Column(String, nullable=False, index=True)
+    email = Column(String, nullable=False, index=True, unique=True)
     budget = Column(Integer, nullable=True)
     age = Column(Integer, nullable=True)
     sleep_type = Column(String, nullable=True)
@@ -15,6 +15,9 @@ class User(Base):
     preferences = Column(JSONB, nullable=True)
     social_links = Column(JSONB, nullable=True)
     onboarding_done = Column(Boolean, default=False)
-    embedding_id = Column(String, nullable=True)
     created_at = Column(DateTime(timezone=True), server_default=func.now())
-    updated_at = Column(DateTime(timezone=True), onupdate=func.now())
+    updated_at = Column(
+        DateTime(timezone=True),
+        server_default=func.now(),
+        onupdate=func.now()
+        )

@@ -1,4 +1,4 @@
-from endee import Endee, Precision
+from endee import Endee
 import os
 from dotenv import load_dotenv
 
@@ -6,34 +6,31 @@ load_dotenv()
 
 client = Endee()
 
-client.set_base_url("http://localhost:8080/api/v1")
+ENDEE_URL = os.getenv("ENDEE_URL")
+client.set_base_url(ENDEE_URL)
 
 INDEX_NAME = "kohabit_index"
-EMBEDDING_DIM = 768
-
+EMBEDDING_DIM = 1024
 
 def ensure_index():
-    indexes = client.list_indexes()
+    try:
+        client.create_index(
+            name=INDEX_NAME,
+            dimension=EMBEDDING_DIM,
+            space_type="cosine",
+            precision="float32"
+        )
+        print(" kohabit_index created")
 
-    if INDEX_NAME not in indexes:
-        try:
-            client.create_index(
-                name=INDEX_NAME,
-                dimension=EMBEDDING_DIM,
-                space_type="cosine",
-                precision="float32"
-            )
-            print("✅ kohabit_index created")
-        except Exception as e:
-            print("❌ INDEX CREATION FAILED:")
+    except Exception as e:
+        if "already exists" in str(e).lower():
+            print(" kohabit_index already exists")
+        else:
+            print(" INDEX CREATION FAILED:")
             print(e)
             raise
-    else:
-        print("ℹ️ kohabit_index already exists")
-
 
 def upsert_vector(user_id: int, vector: list):
-    ensure_index()
     index = client.get_index(name=INDEX_NAME)
 
     index.upsert([
@@ -44,4 +41,4 @@ def upsert_vector(user_id: int, vector: list):
         }
     ])
 
-    print(f"✅ Vector stored for user {user_id}")
+    print(f"Vector stored for user {user_id}")
