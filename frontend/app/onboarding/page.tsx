@@ -5,10 +5,13 @@ import Step2 from '@/components/onboarding/Step2';
 import Step3 from '@/components/onboarding/Step3';
 import { Form } from '@/types/onboarding';
 import ProgressBar from '@/components/ProgressBar';
+import { useRouter } from 'next/navigation';
 
 export default function OnboardingPage() {
+  const router = useRouter();
   const [step, setStep] = useState(1);
   const [loading, setLoading] = useState(false);
+
   const [form, setForm] = useState<Form>({
     interests: [],
     budget: '',
@@ -20,18 +23,70 @@ export default function OnboardingPage() {
 
   const handleFinish = async () => {
     setLoading(true);
+
     try {
-      console.log('✅ Final form data:', form);
+      const token = localStorage.getItem('token');
 
-      const res = await fetch('http://localhost:8000/onboarding/', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(form),
-      });
+      if (!token) {
+        alert('You are not authenticated.');
+        setLoading(false);
+        return;
+      }
 
-      if (!res.ok) throw new Error('Failed to save onboarding data');
+      const social_links = {
+        instagram: form.preferences.instagram || null,
+        discord: form.preferences.discord || null,
+        twitter: form.preferences.twitter || null,
+      };
 
-      alert('🎉 Onboarding completed successfully!');
+      const {
+        instagram,
+        discord,
+        twitter,
+        ...matchingPreferences
+      } = form.preferences;
+
+      const onboardingRes = await fetch(
+        `${process.env.NEXT_PUBLIC_API_URL}/user/onboarding`,
+        {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify({
+            budget: Number(form.budget),
+            age: form.preferences.age,
+            sleep_type: form.preferences.sleep,
+            interests: form.interests,
+            preferences: matchingPreferences,
+            social_links: social_links,
+          }),
+        }
+      );
+
+      if (!onboardingRes.ok) {
+        const data = await onboardingRes.json();
+        throw new Error(data.detail || 'Failed to save onboarding data');
+      }
+
+      const embedRes = await fetch(
+        `${process.env.NEXT_PUBLIC_API_URL}/ai/embed-profile`,
+        {
+          method: 'POST',
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      if (!embedRes.ok) {
+        throw new Error('Embedding generation failed');
+      }
+
+      alert('🎉 Profile setup completed successfully!');
+      router.push('/dashboard');
+
     } catch (error) {
       console.error(error);
       alert('Something went wrong. Please try again.');
@@ -50,8 +105,19 @@ export default function OnboardingPage() {
         <ProgressBar step={step} total={3} />
 
         <div className="mt-10">
-          {step === 1 && <Step1 form={form} setForm={setForm} nextStep={nextStep} />}
-          {step === 2 && <Step2 form={form} setForm={setForm} nextStep={nextStep} prevStep={prevStep} />}
+          {step === 1 && (
+            <Step1 form={form} setForm={setForm} nextStep={nextStep} />
+          )}
+
+          {step === 2 && (
+            <Step2
+              form={form}
+              setForm={setForm}
+              nextStep={nextStep}
+              prevStep={prevStep}
+            />
+          )}
+
           {step === 3 && (
             <Step3
               form={form}
@@ -61,6 +127,12 @@ export default function OnboardingPage() {
             />
           )}
         </div>
+
+        {loading && (
+          <p className="text-center mt-6 text-indigo-600 font-medium">
+            Setting up your AI profile...
+          </p>
+        )}
       </div>
     </main>
   );

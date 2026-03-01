@@ -5,6 +5,8 @@ from app.routers import auth
 from fastapi.middleware.cors import CORSMiddleware
 from app.models.user import User
 from app.db.postgres import engine, Base
+from app.routers import user
+from app.routers import ai
 
 app = FastAPI(
     title="Kohabit API",
@@ -27,3 +29,5 @@ app.add_middleware(
 app.include_router(health.router)
 app.include_router(db_test.router)
 app.include_router(auth.router)
+app.include_router(user.router)
+app.include_router(ai.router)

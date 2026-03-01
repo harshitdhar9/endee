@@ -52,7 +52,7 @@ async def signup(user: UserSignup):
     except Exception as e:
         print("Signup error:", str(e))
         raise HTTPException(status_code=400, detail=str(e))
-
+    
 @router.post("/signin")
 async def signin(user: UserSignin):
     try:
@@ -74,7 +74,6 @@ async def signin(user: UserSignin):
 
             if not db_user:
                 raise HTTPException(status_code=404, detail="User profile not found")
-
         return {
             "message": "Login successful",
             "access_token": response.session.access_token,
