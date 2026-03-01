@@ -117,3 +117,10 @@ To run locally:
 
 DATABASE_URL=your_supabase_connection_string
 
+<img width="1505" height="812" alt="Screenshot 2026-03-01 at 11 13 38 PM" src="https://github.com/user-attachments/assets/3a1cb7a4-698d-44bc-b504-45eaa97dca67" />
+<img width="756" height="817" alt="Screenshot 2026-03-01 at 11 14 46 PM" src="https://github.com/user-attachments/assets/3117c776-95db-4dbc-92b4-0d7c3fa2bda6" />
+<img width="710" height="817" alt="Screenshot 2026-03-01 at 11 15 16 PM" src="https://github.com/user-attachments/assets/414cfab1-33e6-45cb-9269-e1762c24eaa6" />
+<img width="693" height="355" alt="Screenshot 2026-03-01 at 11 15 55 PM" src="https://github.com/user-attachments/assets/4aacfd86-20de-44f7-9e74-521e9c84931e" />
+<img width="1437" height="563" alt="Screenshot 2026-03-01 at 11 19 45 PM" src="https://github.com/user-attachments/assets/86f3bb2a-c4e3-42cf-893a-fc7e6043fe07" />
+
+
