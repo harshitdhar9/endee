@@ -65,6 +65,21 @@ This allows demonstration of real similarity search.
 - Vector DB: Endee
 - Containerization: Docker Compose
 
+## Prerequisites
+
+Make sure the following are installed:
+
+- Docker (20.10 or later)
+- Docker Compose v2
+- At least 2GB available RAM
+
+Verify installation:
+
+```bash
+docker --version
+docker compose version
+```
+
 ## Setup
 
 1. Clone the repository
