@@ -12,3 +12,7 @@ backend/*.pyc
 backend/.pytest_cache/
 
 frontend/.env.local
+backend/kohabit_env/
+frontend/node_modules/
+frontend/.next/
+.env

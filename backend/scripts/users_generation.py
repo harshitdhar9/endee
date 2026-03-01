@@ -10,60 +10,39 @@ from app.core.vector import upsert_vector, ensure_index
 
 fake = Faker()
 
-INTERESTS = ["Sports", "Music", "Travel", "Reading", "Gaming",
-             "Cooking", "Fitness", "Art", "Technology", "Movies"]
+CITY = "Delhi"
+TOTAL_USERS = 100
 
-PETS = ["Dog", "Cat", "Bird", "Rabbit"]
-
-MUSIC = ["Rock", "Pop", "Jazz", "Classical",
-         "EDM", "Hip-Hop", "Indie", "Country"]
-
-MOVIES = ["Action", "Comedy", "Drama", "Horror",
-          "Romance", "Sci-Fi", "Thriller", "Animation"]
-
-LOOKING_FOR = ["Friends", "Roommates", "Networking", "Dating"]
-
-COMMUNICATION = ["Calls", "Texts", "Video Chat"]
+INTERESTS = [
+    "Sports", "Music", "Travel", "Reading", "Gaming",
+    "Cooking", "Fitness", "Art", "Technology", "Movies",
+    "Photography", "Hiking", "Coding", "Anime", "Startups"
+]
 
 PERSONALITY = ["Introvert", "Extrovert", "Ambivert"]
+DIET = ["Vegetarian", "Vegan", "Non-Vegetarian"]
+LOOKING_FOR = ["Friends", "Roommates", "Networking"]
 
-DIET = ["Vegetarian", "Vegan", "Non-Vegetarian", "Keto"]
 
-
-def random_subset(lst, min_items=1, max_items=3):
+def random_subset(lst, min_items=1, max_items=4):
     return random.sample(lst, random.randint(min_items, min(max_items, len(lst))))
 
-async def create_user():
+
+async def create_user(index_number: int):
     name = fake.name()
-    email = fake.unique.email()
+    email = f"delhi_{index_number}_{uuid.uuid4().hex[:6]}@demo.com"
+    auth_user_id = uuid.uuid4()
 
-    auth_user_id = uuid.uuid4()  
-
-    budget = random.randint(400, 2500)
+    budget = random.randint(6000, 35000)
     age = random.randint(18, 35)
     sleep_type = random.choice(["Morning", "Night"])
-    interests = random_subset(INTERESTS)
+    interests = random_subset(INTERESTS, 2, 5)
 
     preferences = {
-        "age": age,
-        "city": fake.city(),
+        "city": CITY,
         "diet": random_subset(DIET),
-        "pets": random_subset(PETS),
-        "sleep": sleep_type,
-        "gender": random.choice(["Male", "Female"]),
-        "aboutMe": fake.sentence(nb_words=10),
-        "lookingFor": random_subset(LOOKING_FOR),
-        "musicTypes": random_subset(MUSIC),
-        "occupation": fake.job(),
-        "movieGenres": random_subset(MOVIES),
         "personality": random.choice(PERSONALITY),
-        "communication": random_subset(COMMUNICATION),
-    }
-
-    social_links = {
-        "instagram": fake.url(),
-        "discord": fake.user_name(),
-        "twitter": fake.url()
+        "lookingFor": random_subset(LOOKING_FOR),
     }
 
     async with AsyncSessionLocal() as session:
@@ -76,7 +55,7 @@ async def create_user():
             sleep_type=sleep_type,
             interests=interests,
             preferences=preferences,
-            social_links=social_links,
+            social_links={},
             onboarding_done=True
         )
 
@@ -85,28 +64,32 @@ async def create_user():
         await session.refresh(new_user)
 
     profile_text = f"""
-    Budget: {budget}
-    Age: {age}
-    Sleep Type: {sleep_type}
-    Interests: {', '.join(interests)}
-    About Me: {preferences['aboutMe']}
-    Personality: {preferences['personality']}
-    Looking For: {', '.join(preferences['lookingFor'])}
-    Music: {', '.join(preferences['musicTypes'])}
-    Movies: {', '.join(preferences['movieGenres'])}
+    {name} is {age} years old living in Delhi.
+    Budget: {budget}.
+    Sleep Type: {sleep_type}.
+    Interests: {', '.join(interests)}.
+    Personality: {preferences['personality']}.
+    Looking For: {', '.join(preferences['lookingFor'])}.
+    Diet: {', '.join(preferences['diet'])}.
     """
 
     embedding = generate_embedding(profile_text)
     upsert_vector(new_user.id, embedding)
 
-    print(f"Created + Embedded: {email}")
+    print(f"User Created + Embedded: {email}")
+
+    await asyncio.sleep(0.02)
 
 
 async def main():
     ensure_index()
-    for i in range(100):
-        print(f"Creating user {i+1}/100")
-        await create_user()
+
+    print(f"\nGenerating {TOTAL_USERS} Delhi users...\n")
+
+    for i in range(TOTAL_USERS):
+        await create_user(i)
+
+    print("\n100 Delhi Users Created & Embedded Successfully!")
 
 
 if __name__ == "__main__":

@@ -32,14 +32,20 @@ export default function SignInPage() {
       );
 
       const data = await res.json();
-
+      console.log("Login response data:", data);
       if (!res.ok) {
         setError(data.detail || 'Login failed');
         return;
       }
 
       localStorage.setItem('token', data.access_token);
-      router.push('/onboarding');
+      localStorage.setItem('user', JSON.stringify(data.user));
+      if (data.user?.onboarding_done) {
+        router.push('/dashboard');
+      } else {
+        router.push('/onboarding');
+      }
+
     } catch (err) {
       console.error(err);
       setError('Something went wrong');
@@ -52,6 +58,7 @@ export default function SignInPage() {
         <h1 className="text-3xl font-bold text-center text-indigo-600">
           Welcome Back!
         </h1>
+
         <p className="text-gray-600 text-center">
           Sign in to your Kohabit account
         </p>
@@ -80,6 +87,7 @@ export default function SignInPage() {
             >
               Email
             </label>
+
             <input
               id="email"
               name="email"
@@ -99,6 +107,7 @@ export default function SignInPage() {
             >
               Password
             </label>
+
             <input
               id="password"
               name="password"

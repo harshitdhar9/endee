@@ -6,7 +6,7 @@ def generate_embedding(text: str):
     response = requests.post(
         OLLAMA_URL,
         json={
-            "model": "bge-large",
+            "model": "bge-large:latest",
             "prompt": text
         }
     )

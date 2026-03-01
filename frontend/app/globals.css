@@ -1,22 +1,29 @@
-@import "tailwindcss";
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
+/* Base Layer */
 @layer base {
   html {
     scroll-behavior: smooth;
   }
 }
 
+/* Utility Layer */
 @layer utilities {
   .text-balance {
     text-wrap: balance;
   }
 }
+
+/* Component Layer */
 @layer components {
   .scrollbar-hide {
     -ms-overflow-style: none; /* IE and Edge */
     scrollbar-width: none; /* Firefox */
   }
+
   .scrollbar-hide::-webkit-scrollbar {
-    display: none; /* Chrome, Safari, Opera*/
+    display: none; /* Chrome, Safari, Opera */
   }
 }

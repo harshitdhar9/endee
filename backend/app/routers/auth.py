@@ -80,7 +80,8 @@ async def signin(user: UserSignin):
             "user": {
                 "id": db_user.id,
                 "name": db_user.name,
-                "email": db_user.email
+                "email": db_user.email,
+                "onboarding_done": db_user.onboarding_done
             }
         }
     except Exception as e:

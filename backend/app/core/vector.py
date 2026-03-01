@@ -12,23 +12,29 @@ client.set_base_url(ENDEE_URL)
 INDEX_NAME = "kohabit_index"
 EMBEDDING_DIM = 1024
 
-def ensure_index():
-    try:
-        client.create_index(
-            name=INDEX_NAME,
-            dimension=EMBEDDING_DIM,
-            space_type="cosine",
-            precision="float32"
-        )
-        print(" kohabit_index created")
+import time
 
-    except Exception as e:
-        if "already exists" in str(e).lower():
-            print(" kohabit_index already exists")
-        else:
-            print(" INDEX CREATION FAILED:")
-            print(e)
-            raise
+def ensure_index():
+    for attempt in range(5):
+        try:
+            client.create_index(
+                name=INDEX_NAME,
+                dimension=EMBEDDING_DIM,
+                space_type="cosine",
+                precision="float32"
+            )
+            print(" kohabit_index created")
+            return
+
+        except Exception as e:
+            if "already exists" in str(e).lower():
+                print(" kohabit_index already exists")
+                return
+
+            print(f"Attempt {attempt + 1} failed. Retrying...")
+            time.sleep(3)
+
+    raise Exception("Failed to create index after retries")
 
 def upsert_vector(user_id: int, vector: list):
     index = client.get_index(name=INDEX_NAME)

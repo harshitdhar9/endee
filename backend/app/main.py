@@ -18,6 +18,9 @@ async def create_tables():
     async with engine.begin() as conn:
         await conn.run_sync(Base.metadata.create_all)
 
+    from app.core.vector import ensure_index
+    ensure_index()
+
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["http://localhost:3000"],

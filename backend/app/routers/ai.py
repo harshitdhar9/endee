@@ -39,53 +39,72 @@ async def embed_profile(current_user: User = Depends(get_current_user)):
 @router.get("/match")
 async def match_users(current_user: User = Depends(get_current_user)):
 
-    index = client.get_index(name=INDEX_NAME)
-    current_vector = index.get_vector(str(current_user.id))
+    print(" Current user ID:", current_user.id)
 
-    if not current_vector:
-        return {"message": "Embedding not found for user"}
-    results = index.query(
-        vector=current_vector["vector"],
-        top_k=10,
-        ef=128
-    )
-
-    if not results:
-        return []
-    matched = [
-        item for item in results
-        if int(item["id"]) != current_user.id
-    ]
-    if not matched:
-        return []
-    matched_ids = [int(item["id"]) for item in matched]
     current_city = (
         current_user.preferences.get("city")
         if current_user.preferences else None
     )
 
+    print(" Current city:", current_city)
+
+    index = client.get_index(name=INDEX_NAME)
+    current_vector = index.get_vector(str(current_user.id))
+
+    if not current_vector:
+        print(" No embedding found")
+        return {"message": "Embedding not found for user"}
+
+    results = index.query(
+        vector=current_vector["vector"],
+        top_k=30,  
+        ef=128
+    )
+
+    if not results:
+        return []
+
+    matched = [
+        item for item in results
+        if int(item["id"]) != current_user.id
+    ]
+
+    if not matched:
+        return []
+
+    matched_ids = [int(item["id"]) for item in matched]
+
     async with AsyncSessionLocal() as session:
         result = await session.execute(
-            select(User).where(
-                User.id.in_(matched_ids),
-                User.preferences["city"].astext == current_city
-            )
+            select(User).where(User.id.in_(matched_ids))
         )
         users = result.scalars().all()
-    if not users:
-        return []
+
+    same_city_users = [
+        user for user in users
+        if user.preferences
+        and user.preferences.get("city") == current_city
+    ]
+
+    print(" Users after city filter:", same_city_users)
+
     response = []
-    for user in users:
+    for user in same_city_users:
         similarity = next(
             item["similarity"]
             for item in matched
             if int(item["id"]) == user.id
         )
+
         response.append({
             "id": user.id,
             "name": user.name,
             "age": user.age,
             "city": current_city,
+            "interests": user.interests,  
             "match_score": round(similarity * 100, 2)
-        })
+})
+
+    print(" FINAL RESPONSE:", response)
+
     return response

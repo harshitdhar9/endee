@@ -1,16 +1,18 @@
 'use client';
 import React, { useState } from 'react';
-
 interface User {
   id: number;
   name: string;
   age: number;
   city: string;
+  interests: string[];     
+  match_score: number;      
   avatar?: string | null;
 }
 
 export default function DashboardPage() {
   const [users, setUsers] = useState<User[]>([]);
+  const [selectedUser, setSelectedUser] = useState<User | null>(null); // 🔥 Added
   const [loading, setLoading] = useState(false);
 
   const handleFindMatches = async () => {
@@ -48,7 +50,6 @@ export default function DashboardPage() {
         Dashboard
       </h1>
 
-      {/* Find Matches Button */}
       <div className="mb-8">
         <button
           onClick={handleFindMatches}
@@ -58,7 +59,6 @@ export default function DashboardPage() {
         </button>
       </div>
 
-      {/* Results Section */}
       {users.length > 0 && (
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {users.map((user) => (
@@ -92,6 +92,7 @@ export default function DashboardPage() {
               </div>
 
               <button
+                onClick={() => setSelectedUser(user)}  
                 className="ml-4 px-4 py-2 bg-green-600 text-white font-semibold rounded-lg hover:bg-green-700 transition-colors"
               >
                 View
@@ -105,6 +106,50 @@ export default function DashboardPage() {
         <p className="text-gray-500 mt-6">
           Click “Find People” to discover compatible roommates.
         </p>
+      )}
+
+      {selectedUser && (
+        <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50">
+          <div className="bg-white rounded-2xl p-8 w-96 shadow-xl relative">
+
+            <button
+              onClick={() => setSelectedUser(null)}
+              className="absolute top-3 right-3 text-gray-500 hover:text-black"
+            >
+              ✕
+            </button>
+
+            <h2 className="text-2xl font-bold mb-2">
+              {selectedUser.name}
+            </h2>
+
+            <p className="text-gray-700 mb-1">
+              {selectedUser.age} yrs
+            </p>
+
+            <p className="text-gray-700 mb-3">
+              {selectedUser.city}
+            </p>
+
+            <p className="font-semibold mb-2">Interests:</p>
+
+            <div className="flex flex-wrap gap-2">
+              {selectedUser.interests?.map((interest, index) => (
+                <span
+                  key={index}
+                  className="px-3 py-1 bg-indigo-100 text-indigo-700 rounded-full text-sm"
+                >
+                  {interest}
+                </span>
+              ))}
+            </div>
+
+            <p className="mt-4 text-indigo-600 font-semibold">
+              Match Score: {selectedUser.match_score}%
+            </p>
+
+          </div>
+        </div>
       )}
     </main>
   );
